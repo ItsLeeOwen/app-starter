@@ -99,10 +99,10 @@ function entry(entries) {
 function output(output) {
   return {
     filename: "[hash].[name].js",
+    ...output,
     path: path.resolve(cwd, output
       ? output.path
       : defaultOutputPath),
-    ...output,
   }
 }
 
@@ -121,11 +121,11 @@ function html(entries) {
 
 function devServer(devServer) {
   return {
-    contentBase: path.resolve(cwd, pkg.webpack.output
-      ? pkg.webpack.output.path
-      : defaultOutputPath),
     compress: true,
     port: 8080,
     ...devServer,
+    contentBase: path.resolve(cwd, pkg.webpack.output
+      ? pkg.webpack.output.path
+      : defaultOutputPath),
   }
 }
