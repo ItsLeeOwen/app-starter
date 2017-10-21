@@ -45,5 +45,7 @@
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "script-ext-html-webpack-plugin": "^1.8.5"
+  }
 }
