@@ -104,6 +104,7 @@ function output(output) {
   return {
     filename: "[hash].[name].js",
     ...output,
+    strictModuleExceptionHandling: true,
     path: path.resolve(cwd, output
       ? output.path
       : defaultOutputPath),
