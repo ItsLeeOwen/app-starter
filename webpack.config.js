@@ -80,7 +80,13 @@ module.exports = {
           '*.html',
           '*.map',
         ],
-      })
+      }),
+    new CopyWebpackPlugin([
+      {
+        context: pkg.webpack.src || 'src',
+        from: 'asset/**/*',
+      },
+    ])
   ]
 }
 
