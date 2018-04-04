@@ -22,6 +22,7 @@ init(pkg)
 
 module.exports = {
   devtool: "source-map",
+  mode: pkg.webpack.mode || "development",
   devServer: pkg.webpack.devServer,
   entry: pkg.webpack.entry,
   output: pkg.webpack.output,
