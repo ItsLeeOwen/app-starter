@@ -1,7 +1,13 @@
 import './index.scss'
 
-class Example {
-  static Var = "Well Hello"
-}
+import React from "react"
+import ReactDOM from "react-dom"
+import { HashRouter as Router, Route } from 'react-router-dom'
 
-console.log("index.js", Example.Var)
+import App from "./app"
+
+ReactDOM.render((
+  <Router>
+    <App />
+  </Router>
+), document.querySelector("main"))

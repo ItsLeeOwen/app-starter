@@ -19,7 +19,8 @@
       "env",
       "latest",
       "stage-0",
-      "es2017"
+      "es2017",
+      "react"
     ]
   },
   "author": "itsleeowen@gmail.com",
@@ -32,6 +33,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
@@ -40,6 +42,9 @@
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.5",
     "node-sass": "^4.8.3",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "sass-loader": "^6.0.7",
     "script-ext-html-webpack-plugin": "^2.0.1",
     "style-loader": "^0.20.3",
