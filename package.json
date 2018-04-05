@@ -6,7 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/webpack",
-    "dev": "node_modules/.bin/webpack-dev-server"
+    "deploy": "npm run build & surge dist",
+    "dev": "npm run start",
+    "postinstall": "npm run start",
+    "start": "node_modules/.bin/webpack-dev-server",
+    "start-env-example": "./config.sh || node_modules/.bin/webpack-dev-server"
   },
   "webpack": {
     "entry": {
