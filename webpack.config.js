@@ -11,7 +11,8 @@ const path = require("path"),
   CleanWebpackPlugin = require("clean-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
-  ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
+  // broken in latest webpack
+  //ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
   webpack = require("webpack")
 
 const cwd = process.cwd(),
@@ -67,9 +68,10 @@ module.exports = {
       filename: "[hash].[name].css",
     }),
     ...pkg.webpack.html,
-    new ScriptExtHtmlWebpackPlugin({
-      defaultAttribute: 'defer'
-    }),
+    // broken in latest webpack
+    // new ScriptExtHtmlWebpackPlugin({
+    //   defaultAttribute: 'defer'
+    // }),
     new CopyWebpackPlugin([
       {
         context: pkg.webpack.src || 'src',
