@@ -6,6 +6,6 @@ if [ -e ./.env ]
 then
     source ./.env;
 else
-    echo ".env file not found"
+    echo ".env file not found, see README"
     exit 0
 fi
