@@ -95,7 +95,7 @@ module.exports = {
 function init(pkg) {
   pkg.webpack.devServer = devServer(pkg.webpack.devServer)
   pkg.webpack.entry = entry(pkg.webpack.entry)
-  pkg.webpack.env = entry(pkg.webpack.env)
+  pkg.webpack.env = env(pkg.webpack.env)
   pkg.webpack.html = html(pkg.webpack.entry)
   pkg.webpack.output = output(pkg.webpack.output)
 }
@@ -121,12 +121,12 @@ function entry(entries) {
 }
 
 function env(env = {}) {
-  return reduce(env, (result, value, key) => {
+  return reduce(env, (r, value, key) => {
     if ("$" == value.charAt(0))
-      results[`process.env.${key}`] = JSON.stringify(process.env[value.substring(1)])
+      r[`process.env.${key}`] = JSON.stringify(process.env[value.substring(1)])
     else
-      results[`process.env.${key}`] = JSON.stringify(key)
-    return result
+      r[`process.env.${key}`] = JSON.stringify(key)
+    return r
   }, {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     })
