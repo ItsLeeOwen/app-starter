@@ -59,6 +59,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin(pkg.webpack.env),
     new CleanWebpackPlugin(pkg.webpack.output.path),
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({
@@ -92,10 +93,22 @@ module.exports = {
 }
 
 function init(pkg) {
-  pkg.webpack.html = html(pkg.webpack.entry)
-  pkg.webpack.entry = entry(pkg.webpack.entry)
-  pkg.webpack.output = output(pkg.webpack.output)
   pkg.webpack.devServer = devServer(pkg.webpack.devServer)
+  pkg.webpack.entry = entry(pkg.webpack.entry)
+  pkg.webpack.env = entry(pkg.webpack.env)
+  pkg.webpack.html = html(pkg.webpack.entry)
+  pkg.webpack.output = output(pkg.webpack.output)
+}
+
+function devServer(devServer) {
+  return {
+    compress: true,
+    port: 8080,
+    ...devServer,
+    contentBase: path.resolve(cwd, pkg.webpack.output
+      ? pkg.webpack.output.path
+      : defaultOutputPath),
+  }
 }
 
 function entry(entries) {
@@ -107,15 +120,16 @@ function entry(entries) {
   return mapKeys(entries, (value, key) => key.replace(".js", ""))
 }
 
-function output(output) {
-  return {
-    filename: "[hash].[name].js",
-    ...output,
-    strictModuleExceptionHandling: true,
-    path: path.resolve(cwd, output
-      ? output.path
-      : defaultOutputPath),
-  }
+function env(env = {}) {
+  return reduce(env, (result, value, key) => {
+    if ("$" == value.charAt(0))
+      results[`process.env.${key}`] = JSON.stringify(process.env[value.substring(1)])
+    else
+      results[`process.env.${key}`] = JSON.stringify(key)
+    return result
+  }, {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    })
 }
 
 function html(entries) {
@@ -131,13 +145,13 @@ function html(entries) {
   })
 }
 
-function devServer(devServer) {
+function output(output) {
   return {
-    compress: true,
-    port: 8080,
-    ...devServer,
-    contentBase: path.resolve(cwd, pkg.webpack.output
-      ? pkg.webpack.output.path
+    filename: "[hash].[name].js",
+    ...output,
+    strictModuleExceptionHandling: true,
+    path: path.resolve(cwd, output
+      ? output.path
       : defaultOutputPath),
   }
 }
