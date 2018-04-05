@@ -10,7 +10,7 @@
     "dev": "npm run start",
     "postinstall": "npm run start",
     "start": "node_modules/.bin/webpack-dev-server",
-    "start-env-example": "./config.sh || node_modules/.bin/webpack-dev-server"
+    "start-env-example": "source ./.env || node_modules/.bin/webpack-dev-server"
   },
   "webpack": {
     "entry": {
