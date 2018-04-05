@@ -11,8 +11,7 @@ const path = require("path"),
   CleanWebpackPlugin = require("clean-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
-  // broken in latest webpack
-  //ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
+  ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin"),
   webpack = require("webpack")
 
 const cwd = process.cwd(),
@@ -26,7 +25,7 @@ module.exports = {
   devtool: "source-map",
   mode: pkg.webpack.mode || "development",
   devServer: pkg.webpack.devServer,
-  entry: pkg.webpack.entry,
+  entry: pkg.webpack.js,
   output: pkg.webpack.output,
   module: {
     rules: [
@@ -68,10 +67,9 @@ module.exports = {
       filename: "[hash].[name].css",
     }),
     ...pkg.webpack.html,
-    // broken in latest webpack
-    // new ScriptExtHtmlWebpackPlugin({
-    //   defaultAttribute: 'defer'
-    // }),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'defer'
+    }),
     new CopyWebpackPlugin([
       {
         context: pkg.webpack.src || 'src',
@@ -97,7 +95,7 @@ module.exports = {
 
 function init(pkg) {
   pkg.webpack.devServer = devServer(pkg.webpack.devServer)
-  pkg.webpack.entry = entry(pkg.webpack.entry)
+  pkg.webpack.js = entry(pkg.webpack.entry)
   pkg.webpack.env = env(pkg.webpack.env)
   pkg.webpack.html = html(pkg.webpack.entry)
   pkg.webpack.output = output(pkg.webpack.output)
