@@ -1,35 +1,59 @@
 import React from "react"
-
 import {
   Link,
   Route,
 } from 'react-router-dom'
+import CssBaseline from '@material-ui/core/CssBaseline'
+import Button from '@material-ui/core/Button'
+import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom"
 
-import Fluffykins from "./fluffykins"
-import Abbykins from "./abbykins"
+import Cats from "./cats"
 
-export default class App extends React.Component {
-  static Var = "Hello"
-  
+class App extends React.Component {
+
   render() {
+    let {
+      catsUnselectedHidden,
+      toggleHideUnselectedCats,
+    } = this.props
+
     return (
-      <div>
-        <h1>
-          <Link to="/">React App Starter</Link>
-        </h1>
+      <div className="as-appstarter">
+        <CssBaseline />
         <nav>
-          <Link to="/abbykins">Abbykins</Link>
-          <br />
-          <Link to="/fluffykins">Fluffykins</Link>
+          <div>
+            <Link to="/">App Starter</Link>
+            <span> - </span>
+            <Link to="/cats">Cats</Link>
+          </div>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={event => toggleHideUnselectedCats(!catsUnselectedHidden)}>
+              {catsUnselectedHidden
+                ? "Show Unselected Cats"
+                : "Hide Unselected Cats"}
+            </Button>
+          </div>
         </nav>
 
         <Route
-          path="/abbykins"
-          component={Abbykins} />
-        <Route
-          path="/fluffykins"
-          component={Fluffykins} />
+          path="/cats"
+          component={Cats} />
       </div>
     )
   }
 }
+
+export default withRouter(connect(
+  state => state, {
+    toggleHideUnselectedCats: catsUnselectedHidden => dispatch => {
+      dispatch({
+        type: "CATS_HIDE_UNSELECTED",
+        catsUnselectedHidden,
+      })
+    },
+  }
+)(App))

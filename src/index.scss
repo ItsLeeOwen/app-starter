@@ -3,13 +3,13 @@
 body {
   margin: 0;
   padding: 0;
-  width: 100vw;
   min-height: 100vh;
   font-family: 'Open Sans', sans-serif;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom right;
-  background-image: url("https://i.imgur.com/zPe5TBg.png");
+  background-image: url("/asset/sky.jpg");
+  background-attachment: fixed;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -22,9 +22,6 @@ a {
   color: #333;
 }
 
-.abbykins,
-.fluffykins {
-  img {
-    max-width: 100%;
-  }
-}
+@import "~app.scss";
+@import "~cats/index.scss";
+@import "~cats/cat.scss";

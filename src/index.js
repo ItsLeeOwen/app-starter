@@ -4,10 +4,15 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { HashRouter as Router, Route } from 'react-router-dom'
 
-import App from "./app"
+import { Provider } from 'react-redux'
+
+import App from "app"
+import store from "store"
 
 ReactDOM.render((
   <Router>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </Router>
-), document.querySelector("main"))
+), document.querySelector("#app-starter"))
