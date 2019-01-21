@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600");
 
 body {
   margin: 0;
@@ -15,6 +15,25 @@ body {
     rgba(114, 233, 255, 1) 0%,
     rgba(0, 187, 255, 1) 90%
   );
+
+  /* REMOVE ME */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: 300;
+}
+
+h2 {
+  font-weight: 35px;
+}
+
+h3 {
+  font-weight: 30px;
 }
 
 h1,
@@ -30,11 +49,4 @@ h6 {
 a {
   text-decoration: none;
   color: #333;
-}
-
-.abbykins,
-.fluffykins {
-  img {
-    max-width: 100%;
-  }
 }
