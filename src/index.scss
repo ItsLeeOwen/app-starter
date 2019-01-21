@@ -1,20 +1,30 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 body {
   margin: 0;
   padding: 0;
   width: 100vw;
   min-height: 100vh;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom right;
-  background-image: url("https://i.imgur.com/zPe5TBg.png");
+  background: rgb(0, 187, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(114, 233, 255, 1) 0%,
+    rgba(0, 187, 255, 1) 90%
+  );
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
-  padding: 0,
+  padding: 0;
 }
 
 a {
