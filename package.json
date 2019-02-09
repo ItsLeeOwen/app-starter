@@ -1,7 +1,7 @@
 {
   "author": "github.com/ItsLeeOwen",
   "name": "app-starter",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "main": "src/index.js",
   "bin": "./index.js",
