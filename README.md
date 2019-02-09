@@ -4,7 +4,7 @@
 npx create-app-starter my-app
 
 # If you want to create a pure js/css/html app include `vanilla` as the 4th argument
-npx create-app-starter my-app vanilla`
+npx create-app-starter my-app vanilla
 ```
 
 or
