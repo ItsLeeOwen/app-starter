@@ -1,26 +1,42 @@
+## Get Started
+
 ```sh
-git clone https://github.com/ItsLeeOwen/app-starter.git my-react-app
+npx create-app-starter my-app
 
-cd my-react-app
-
-npm install
-
-that's it.
+# If you want to create a pure js/css/html app include `vanilla` as the 4th argument
+npx create-app-starter my-app vanilla`
 ```
 
-##Code Splitting
+or
+
+```sh
+git clone https://github.com/ItsLeeOwen/app-starter.git my-app
+
+cd my-app
+
+# If you want to create a pure js/css/html app include
+# checkout the vanilla branch
+git checkout vanilla
+
+npm install
+```
+
+That's it.
+
+## Code Splitting
+
 Add additional packages to package.json's "webpack.entry" config.
 
 ```json
 "webpack": {
-    "entry": {
-			"index.html": "./src/index.html",
-			"index.js": "./src/index.js",
+  "entry": {
+    "index.html": "./src/index.html",
+    "index.js": "./src/index.js",
 
-			"login.html": "./src/login.html",
-			"login.js": "./src/login.js"
-    }
-  },
+    "login.html": "./src/login.html",
+    "login.js": "./src/login.js"
+  }
+}
 ```
 
 ## Environment Vars
@@ -29,10 +45,10 @@ Add environment variables to your project, accessible on `process.env`. Example:
 
 ```json
 "webpack": {
-	"env": {
-		"GREETING": "cześć",
-		"GREETING_FROM_ENV": "$GREETING_FROM_ENV"
-	}
+  "env": {
+    "GREETING": "cześć",
+    "GREETING_FROM_ENV": "$GREETING_FROM_ENV"
+  }
 }
 ```
 
