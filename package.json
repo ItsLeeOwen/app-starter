@@ -1,9 +1,10 @@
 {
   "author": "github.com/ItsLeeOwen",
   "name": "app-starter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "main": "src/index.js",
+  "bin": "./index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/webpack",
@@ -24,7 +25,11 @@
     }
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "nodegit": "^0.24.0",
+    "rimraf": "^2.6.3",
+    "webpack-config-starter": "^0.0.20"
+  },
   "devDependencies": {
     "node-sass": "^4.10.0",
     "react": "^16.3.2",
