@@ -1,11 +1,7 @@
+import App from "app"
 import "./index.scss"
 
 console.log("index.js")
 
-function doSomeStupidShitDoes() {
-  var myStupidVar = ["hello", "ok"]
-  var thing = {
-    ok: 1,
-    good: 2,
-  }
-}
+const app = new App()
+app.greet("dzień dobry", "hello", process.env.GREETING)

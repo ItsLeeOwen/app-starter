@@ -14,9 +14,17 @@
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.insertSpaces": false,
+
+  "tslint.enable": true,
+  "tslint.autoFixOnSave": true,
+  "typescript.format.enable": true,
+  "typescript.check.npmIsInstalled": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
   "recommendations": [
     "mrmlnc.vscode-scss",
     "esbenp.prettier-vscode",
-    "visualstudioexptteam.vscodeintellicode"
+    "visualstudioexptteam.vscodeintellicode",
+    "ms-vscode.vscode-typescript-tslint-plugin"
   ]
 }
