@@ -10,6 +10,7 @@
     "build": "node_modules/.bin/webpack",
     "deploy": "npm run build & surge dist",
     "dev": "npm run start",
+    "postinstall": "npm start",
     "start": "node_modules/.bin/webpack-dev-server",
     "start-env-example": "source ./.env || node_modules/.bin/webpack-dev-server"
   },
