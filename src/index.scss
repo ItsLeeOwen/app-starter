@@ -1,9 +1,11 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600");
 
+@import "vars";
+
 body {
   margin: 0;
   padding: 0;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   font-family: "Open Sans", sans-serif;
   background-size: contain;
@@ -16,11 +18,21 @@ body {
     rgba(0, 187, 255, 1) 90%
   );
 
+  //overflow-x: hidden;
+
   /* REMOVE ME */
   display: flex;
   justify-content: center;
   align-items: center;
   color: #ffffff;
+
+  &.la-noscroll {
+    overflow: hidden;
+  }
+}
+
+* {
+  box-sizing: border-box;
 }
 
 h1 {
@@ -49,4 +61,121 @@ h6 {
 a {
   text-decoration: none;
   color: #333;
+}
+
+main {
+  height: 2000px;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+}
+
+.la-projects {
+  display: flex;
+  //flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.la-project {
+  width: calc(33%);
+  width: 200px;
+  margin: 10px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transform-style: flat;
+
+  $closeDelay: 200ms;
+  $openDuration: 500ms;
+
+  .la-project__modal-content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+    padding: 20px 10px 10px 10px;
+
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity $easeOutQuint $closeDelay 0ms,
+      visibility $easeOutQuint $closeDelay 0ms;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > div {
+      flex: 1 1 10%;
+    }
+
+    iframe {
+      flex: 1 0 90%;
+      background-color: #ffffff;
+    }
+  }
+
+  &[data-name="czesc"] iframe {
+    background-color: orange;
+  }
+
+  .la-project__preview {
+    transition: transform $easeOutExpo $openDuration;
+    background-color: #0097ce;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .la-project__preview {
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active,
+    &:focus {
+      transform: scale(1);
+    }
+  }
+
+  .la-project__modal-anim {
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+
+    //transition: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    //visibility: hidden;
+    opacity: 0;
+    transition: transform $easeInOutQuint $openDuration $closeDelay,
+      opacity $easeInOutCubic 700ms $closeDelay,
+      visibility linear 700ms $closeDelay;
+  }
+
+  &--active {
+    z-index: 99;
+
+    .la-project__modal-anim {
+      visibility: visible;
+      pointer-events: all;
+      opacity: 1;
+      transition: transform $easeInOutQuint $openDuration,
+        opacity $easeInCubic 200ms;
+    }
+
+    .la-project__modal-content {
+      transition: opacity $easeInOutQuint $openDuration $openDuration - 100ms,
+        visibility $easeInOutQuint $openDuration $openDuration - 100ms;
+      pointer-events: all;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 }
