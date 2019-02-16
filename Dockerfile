@@ -22,12 +22,13 @@ RUN npm install --no-package-lock
 RUN npm run build
 
 # deploy image
-FROM nginx:alpine
+FROM nginx:1.15.8-alpine
 ARG PORT
 ENV PORT=$PORT
 COPY --from=builder /home/app/dist /usr/share/nginx/html
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx/mime.types /etc/nginx/mime.types
 
 CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
 
