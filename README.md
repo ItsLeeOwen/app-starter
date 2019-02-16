@@ -41,20 +41,32 @@ Add additional packages to package.json's "webpack.entry" config.
 
 ## Environment Vars
 
-Add environment variables to your project, accessible on `process.env`. Example: `process.env.GREETING`.
+To exclude variables from your github repo, such as public keys, but expose them to your javascript code when built, use .env. They will be accessible on `process.env`, such as `process.env.PUBLIC_KEY_EXAMPLE`.
+
+In package.json's `webpack.env` section add a key/value pair where the key is the variable name that your code will reference on `process.env`, the other is a dollarsign prefixed name of the variable from our `.env` file.
+
+Although these values are not committed to your github repo, they ARE transpiled into your clientside code, so don't use any private secrets or keys.
 
 ```json
 "webpack": {
   "env": {
-    "GREETING": "cześć",
-    "GREETING_FROM_ENV": "$GREETING_FROM_ENV"
+    "PUBLIC_KEY_EXAMPLE": "$PUBLIC_KEY_EXAMPLE"
   }
 }
 ```
 
-Values prefixed with `$` will be assigned from your environment.
-Source environment variables from a `.env` file at the root of your project:
+## Heroku Deployment
 
-```sh
-GREETING_FROM_ENV=alo
+### Environment Variables
+
+Any environment vars that you've added to .env, need to be added to `Dockerfile` and `docker-compose.yml` as build args for deployments.
+
+```dockerfile
+# dockerfile build arg example
+ARG PUBLIC_KEY_EXAMPLE="default"
+```
+
+```yml
+# docker-compose build arg example
+- PUBLIC_KEY_EXAMPLE=$PUBLIC_KEY_EXAMPLE
 ```

@@ -8,8 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node_modules/.bin/webpack",
-    "deploy": "npm run build & surge dist",
-    "dev": "npm run start",
+    "deploy": "npm run build",
     "postinstall": "npm start",
     "start": "node_modules/.bin/webpack-dev-server",
     "start-env-example": "source ./.env || node_modules/.bin/webpack-dev-server"
@@ -20,8 +19,7 @@
       "index.js": "./src/index.js"
     },
     "env": {
-      "GREETING": "cześć",
-      "GREETING_FROM_ENV": "$GREETING_FROM_ENV"
+      "PUBLIC_KEY_EXAMPLE": "$PUBLIC_KEY_EXAMPLE"
     }
   },
   "license": "MIT",
