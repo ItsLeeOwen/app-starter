@@ -5,3 +5,5 @@ build:
     PUBLIC_KEY_EXAMPLE: $PUBLIC_KEY_EXAMPLE
   docker:
     web: Dockerfile
+run:
+  web: docker run --publish $PORT:80 nginx
