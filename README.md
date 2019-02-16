@@ -39,13 +39,13 @@ Add additional packages to package.json's "webpack.entry" config.
 }
 ```
 
-## Environment Vars
+## .env Environment Vars
 
-To exclude variables from your github repo, such as public keys, but expose them to your javascript code when built, use .env. They will be accessible on `process.env`, such as `process.env.PUBLIC_KEY_EXAMPLE`.
+Want to expose environment variables to your javascript? Use a .env file in the root of your project. The variables will be accessible on `process.env`, such as `process.env.PUBLIC_KEY_EXAMPLE`.
 
-In package.json's `webpack.env` section add a key/value pair where the key is the variable name that your code will reference on `process.env`, the other is a dollarsign prefixed name of the variable from our `.env` file.
+Although these values are not committed to your github repo when `.env` is gitignored, they ARE transpiled in your clientside code, so don't use any private secrets, or anything you don't want others to find.
 
-Although these values are not committed to your github repo, they ARE transpiled into your clientside code, so don't use any private secrets or keys.
+Restarting your app between .env changes is required.
 
 ```json
 "webpack": {
@@ -55,18 +55,31 @@ Although these values are not committed to your github repo, they ARE transpiled
 }
 ```
 
-## Heroku Deployment
+## Heroku Integration
 
-### Environment Variables
+Heroku cli is required, if not already installed you can install [heroku cli](https://devcenter.heroku.com/articles/heroku-cli#download-and-install) with brew.
 
-Any environment vars that you've added to .env, need to be added to `Dockerfile` and `docker-compose.yml` as build args for deployments.
+```sh
+brew tap heroku/brew && brew install heroku
+```
+
+### Dockerfile
+
+Any .env vars in use need to be added to the ARG section of the `Dockerfile` found in the root of your project.
 
 ```dockerfile
 # dockerfile build arg example
 ARG PUBLIC_KEY_EXAMPLE="default"
 ```
 
-```yml
-# docker-compose build arg example
-- PUBLIC_KEY_EXAMPLE=$PUBLIC_KEY_EXAMPLE
+To publish to heroku, your project will need to be added to heroku once:
+
+```sh
+./heroku/create
+```
+
+After this you can deploy the project to heroku using:
+
+```sh
+./heroku/deploy
 ```
