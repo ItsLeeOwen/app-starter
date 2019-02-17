@@ -7,4 +7,5 @@ heroku container:login
 read -p "Enter a name for your heroku app: " APPNAME
 
 heroku create $APPNAME
-heroku stack:set container
+heroku stack:set container --app ${APPNAME}
+
