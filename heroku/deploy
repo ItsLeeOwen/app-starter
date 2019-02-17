@@ -6,7 +6,7 @@ heroku container:login
 
 APP=$(heroku apps:info --json | jq -r '.app.name')
 
-read -p "Ready to deploy ${APP} to heroku? " -n 1 -r
+read -p "Ready to deploy ${APP} to heroku? (y/n)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
