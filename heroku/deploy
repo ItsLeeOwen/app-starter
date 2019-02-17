@@ -15,5 +15,8 @@ then
 	heroku container:release web
 
 	WEB_URL=$(heroku apps:info --json | jq -r '.app.web_url')
+
+	echo "your app is online at ${WEB_URL}"
+	
 	open $WEB_URL
 fi
