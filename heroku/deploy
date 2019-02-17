@@ -11,6 +11,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
 	heroku container:push web $(cat .env | grep -v "#" | xargs printf -- '--arg %s\n' | xargs)
+	sleep 5s
 	heroku container:release web
 
 	WEB_URL=$(heroku apps:info --json | jq -r '.app.web_url')
