@@ -41,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
       console.log("mutation:", mutation)
+      switch (mutation.type) {
+        case "childList":
+          i
+          break
+      }
     }
   })
 
