@@ -1,7 +1,18 @@
-import App from "app"
+// import Vue from "vue"
+// import jsx from "./component/jsx-component"
+// import sfc from "./component/single-file-component"
+// import slc from "./component/string-literal-component"
+import "./carousel"
 import "./index.scss"
 
-console.log("index.js", process.env)
+// string literal component
+// Vue.component("my-string-literal-component", slc)
 
-const app = new App()
-app.greet("dzień dobry", "hello", process.env.PUBLIC_KEY_EXAMPLE)
+// single file component example
+// Vue.component("my-single-file-component", sfc)
+
+// jsx based vue component
+// Vue.component("my-jsx-component", jsx)
+
+// initialize vue app
+// new Vue(app)

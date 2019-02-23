@@ -22,6 +22,7 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
 
   "recommendations": [
+    "octref.vetur",
     "mrmlnc.vscode-scss",
     "esbenp.prettier-vscode",
     "visualstudioexptteam.vscodeintellicode",
