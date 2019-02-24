@@ -99,7 +99,7 @@ export default function Carousel({
       } else if (!item.element.parentNode) {
         // re-adding a pushed item
         item.enter = true
-        item.onClick = event => onClick(item)
+        item.onClick = event => onClick(items.indexOf(item))
         item.element.addEventListener("click", item.onClick)
         const n = i + 1
         if (n === l) {
