@@ -21,6 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "ajv": "6.9.1",
+    "jss": "^9.8.7",
+    "jss-preset-default": "^10.0.0-alpha.7",
     "node-sass": "^4.11.0",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",

@@ -3,14 +3,8 @@
 $easeInOutQuart: cubic-bezier(0.77, 0, 0.175, 1);
 $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 
+$ilo-carousel-item-width: 365px;
 @import "carousel";
-
-.ilo-carousel {
-  .ilo-carousel__item {
-    width: 365px;
-    height: 550px;
-  }
-}
 
 body {
   margin: 0;
@@ -28,10 +22,6 @@ body {
     rgb(55, 231, 134) 90%
   );
 
-  /* REMOVE ME */
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
   color: #ffffff;
 }
 

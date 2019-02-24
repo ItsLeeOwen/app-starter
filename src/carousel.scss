@@ -1,26 +1,23 @@
+// required for hover transition
 $ilo-carousel-depth: 10px !default;
 $ilo-carousel-perspective: 40px !default;
-$ilo-carousel-item-width: 365px !default;
-$ilo-carousel-item-height: 550px !default;
-$ilo-carousel-speed: 750ms !default;
+$ilo-carousel-item-width: 0px !default;
 
 .ilo-carousel {
-  height: $ilo-carousel-item-height + 25px;
   white-space: nowrap;
   perspective: $ilo-carousel-perspective;
   perspective-origin: left center;
-  overflow-x: hidden;
+  overflow: hidden;
 
   &:not(.ilo-carousel--animating) {
     .ilo-carousel__item {
-      @for $i from 1 through 50 {
+      @for $i from 1 through 20 {
         &:nth-child(#{$i}) {
           &:hover,
           &:focus {
             &:not(.active):not(:active) {
               .ilo-carousel__content {
-                $j: 50 - $i;
-                //z-index: $j;
+                $j: 20 - $i;
 
                 @if $i > 1 {
                   transition-delay: 250ms;
@@ -39,11 +36,10 @@ $ilo-carousel-speed: 750ms !default;
   }
 
   .ilo-carousel__item {
-    transition: transform $easeOutQuint $ilo-carousel-speed,
-      opacity $easeOutQuint $ilo-carousel-speed;
     cursor: pointer;
     position: relative;
     display: inline-block;
+    outline: none;
   }
 
   .ilo-carousel__content {
@@ -57,32 +53,8 @@ $ilo-carousel-speed: 750ms !default;
 
   &--rendering {
     .ilo-carousel__item {
+      transition-duration: 0ms !important;
       transition: none !important;
     }
   }
-
-  //&:not(:first-child) {
-
-  //    }
-
-  // @for $i from 1 through 50 {
-  //   &:nth-child(#{$i}) {
-  //     $j: 10 - $i;
-  //     z-index: $j;
-
-  //     @if $i > 1 {
-  //       // $scale: 1 / $i;
-  //       // $scaledWidth: $ilo-carousel-item-width * $scale;
-  //       // $diffWidth: $ilo-carousel-item-width - $scaledWidth;
-
-  //       // $offsetX: $offsetX - $diffWidth;
-
-  //       // $zOffset: -($i - 1) * 75px;
-  //       // $bx: ($diffWidth) * ($zOffset / $ilo-carousel-perspective);
-
-  //       //transform: scale($scale) translateZ($offsetX);
-  //       transform: translateZ(-($i - 1) * $zTranslate);
-  //     }
-  //   }
-  // }
 }
