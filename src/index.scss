@@ -3,6 +3,15 @@
 $easeInOutQuart: cubic-bezier(0.77, 0, 0.175, 1);
 $easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
 
+@import "carousel";
+
+.ilo-carousel {
+  .ilo-carousel__item {
+    width: 365px;
+    height: 550px;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -52,95 +61,4 @@ h6 {
 a {
   text-decoration: none;
   color: #333;
-}
-
-.ex-carousel {
-  $perspective: 40px;
-  $depth: 10px;
-  $itemWidth: 365px;
-  $itemHeight: 550px;
-  $animSpeed: 1550ms;
-
-  height: $itemHeight + 25px;
-  white-space: nowrap;
-  perspective: $perspective;
-  perspective-origin: left center;
-  overflow-x: hidden;
-
-  &:not(.ex-carousel--animating) {
-    .ex-carousel__item {
-      @for $i from 1 through 50 {
-        &:nth-child(#{$i}) {
-          &:hover,
-          &:focus {
-            &:not(.active):not(:active) {
-              .ex-carousel__poster {
-                $j: 50 - $i;
-                //z-index: $j;
-
-                @if $i > 1 {
-                  transition-delay: 250ms;
-                  $z: ($i - 1) * $depth;
-                  $scale: (($z * -1) / $perspective) - 1;
-                  $scaledWidth: $itemWidth / $scale;
-                  $translateX: ($scale + 1) * ($scaledWidth);
-                  transform: translateX($translateX);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .ex-carousel__item {
-    transition: transform $easeOutQuint $animSpeed,
-      opacity $easeOutQuint $animSpeed;
-    cursor: pointer;
-    position: relative;
-    width: $itemWidth;
-    height: $itemHeight;
-    display: inline-block;
-  }
-
-  .ex-carousel__poster {
-    transition: inherit;
-    width: inherit;
-    height: inherit;
-    background-position: center;
-    background-size: cover;
-    position: relative;
-  }
-
-  &--rendering {
-    .ex-carousel__item {
-      transition: none !important;
-    }
-  }
-
-  //&:not(:first-child) {
-
-  //    }
-
-  // @for $i from 1 through 50 {
-  //   &:nth-child(#{$i}) {
-  //     $j: 10 - $i;
-  //     z-index: $j;
-
-  //     @if $i > 1 {
-  //       // $scale: 1 / $i;
-  //       // $scaledWidth: $itemWidth * $scale;
-  //       // $diffWidth: $itemWidth - $scaledWidth;
-
-  //       // $offsetX: $offsetX - $diffWidth;
-
-  //       // $zOffset: -($i - 1) * 75px;
-  //       // $bx: ($diffWidth) * ($zOffset / $perspective);
-
-  //       //transform: scale($scale) translateZ($offsetX);
-  //       transform: translateZ(-($i - 1) * $zTranslate);
-  //     }
-  //   }
-  // }
 }

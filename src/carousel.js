@@ -1,26 +1,65 @@
-let items = [
-  { poster: "terminator.jpg" },
-  { poster: "pulpfiction.jpg" },
-  { poster: "scarface.jpg" },
-  { poster: "ghostbusters.jpg" },
-  { poster: "goonies.jpg" },
-  { poster: "terminator.jpg" },
-  { poster: "pulpfiction.jpg" },
-  { poster: "scarface.jpg" },
-  { poster: "ghostbusters.jpg" },
-  { poster: "goonies.jpg" },
-]
-
-const depth = 10
-const itemWidth = 365
-const animSpeed = 1550
-let animTimer
-let activeIndex = 0
-
 // javascript implementation
 
 document.addEventListener("DOMContentLoaded", () => {
-  const carousel = document.querySelector(".ex-carousel")
+  const carousel = document.querySelector(`.${CLASS_CAROUSEL}`)
+
+  const content = [
+    { image: "asset/poster/terminator.jpg", data: "terminator" },
+    { image: "asset/poster/pulpfiction.jpg", data: "pulpfiction" },
+    { image: "asset/poster/scarface.jpg", data: "scarface" },
+    { image: "asset/poster/ghostbusters.jpg", data: "ghostbusters" },
+    { image: "asset/poster/goonies.jpg", data: "goonies" },
+    { image: "asset/poster/terminator.jpg", data: "terminator" },
+    { image: "asset/poster/pulpfiction.jpg", data: "pulpfiction" },
+    { image: "asset/poster/scarface.jpg", data: "scarface" },
+    { image: "asset/poster/ghostbusters.jpg", data: "ghostbusters" },
+    { image: "asset/poster/goonies.jpg", data: "goonies" },
+  ].map(item => {
+    const element = document.createElement("div")
+    element.style.backgroundImage = `url("${item.image}")`
+    return {
+      element,
+      data: item.data,
+    }
+  })
+
+  new Carousel({
+    carousel,
+    content,
+    contentWidth: 365,
+    onSelect: selected => {
+      console.log("onSelect", selected)
+    },
+  })
+})
+
+const CLASS_CAROUSEL = "ilo-carousel"
+const CLASS_CAROUSEL_ANIMATING = `${CLASS_CAROUSEL}--animating`
+const CLASS_CAROUSEL_RENDERING = `${CLASS_CAROUSEL}--rendering`
+const CLASS_CAROUSEL_ITEM = "ilo-carousel__item"
+const CLASS_CAROUSEL_CONTENT = "ilo-carousel__content"
+
+export default function Carousel({
+  speed = 750,
+  carousel,
+  content,
+  contentWidth = 365,
+  depth = 10,
+  onSelect,
+}) {
+  if (!carousel) {
+    throw new Error("carousel.js opts.carousel is required")
+  }
+  if (!contentWidth) {
+    throw new Error("carousel.js opts.contentWidth is required")
+  }
+
+  let animTimer
+  let activeIndex = 0
+
+  const items = content.map(content => ({
+    content,
+  }))
 
   render()
 
@@ -29,27 +68,30 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const mutation of mutationsList) {
       switch (mutation.type) {
         case "attributes":
+          console.log("mutation", JSON.stringify(mutation.target.classList))
+          if (carousel.classList.contains(CLASS_CAROUSEL_RENDERING)) {
+            console.log(" rendering")
+            render()
+            reflow()
+            carousel.classList.remove(CLASS_CAROUSEL_RENDERING)
+            return
+          }
           //console.log("mutation:", mutation)
-          if (carousel.classList.contains("ex-carousel--animating")) {
+          if (carousel.classList.contains(CLASS_CAROUSEL_ANIMATING)) {
+            console.log("animating")
             render()
+            return
           }
-          if (carousel.classList.contains("ex-carousel--rendering")) {
-            render()
-            reflow() // prevent transition during render
-            carousel.classList.remove("ex-carousel--rendering")
-          }
-          break
-        case "childList":
           break
       }
     }
   })
 
-  observer.observe(carousel, {
-    attributes: true,
-    childList: true,
-    subtree: false,
-  })
+  // observer.observe(carousel, {
+  //   attributes: true,
+  //   childList: false,
+  //   subtree: false,
+  // })
 
   function render() {
     // iterate through all items, create dom & assign position
@@ -58,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // first loop sets immediate positioning
     items.forEach((item, i) => {
       const zIndex = l - i
-      const x = activeIndex * -itemWidth
+      const x = activeIndex * -contentWidth
       const z = (i - activeIndex) * -depth
 
       item.z = z
@@ -70,12 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!item.element) {
         item.enter = true
         const element = document.createElement("div")
-        element.classList.add("ex-carousel__item")
+        element.classList.add(CLASS_CAROUSEL_ITEM)
         //element.setAttribute("tabindex", i)
-        const poster = document.createElement("div")
-        poster.classList.add("ex-carousel__poster")
-        poster.style.backgroundImage = 'url("asset/poster/' + item.poster + '")'
-        element.appendChild(poster)
+        item.content.element.classList.add(CLASS_CAROUSEL_CONTENT)
+        // const image = document.createElement("div")
+        // image.classList.add(CLASS_CAROUSEL_CONTENT)
+        // image.style.backgroundImage = `url("${item.image}")`
+        element.appendChild(item.content.element)
 
         item.onClick = event => onClick(item)
         element.addEventListener("click", item.onClick)
@@ -93,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (item.enter) {
         item.element.style.opacity = 1
-        const translateX = `translateX(${item.x - itemWidth}px)`
+        const translateX = `translateX(${item.x - contentWidth}px)`
         item.element.style.transform = `${translateZ} ${translateX}`
       }
     })
@@ -114,10 +157,16 @@ document.addEventListener("DOMContentLoaded", () => {
       clearTimeout(animTimer)
     }
 
+    if ("function" === typeof onSelect) {
+      onSelect(item.content)
+    }
+
+    console.log("onClick")
+
     const index = items.indexOf(item)
 
     // prevent hover interactions while animating
-    carousel.classList.add("ex-carousel--animating")
+    carousel.classList.add(CLASS_CAROUSEL_ANIMATING)
 
     const pushing = items.slice(activeIndex, index).map(item => ({
       ...item,
@@ -134,14 +183,22 @@ document.addEventListener("DOMContentLoaded", () => {
       animTimer = undefined
       activeIndex = 0
       items.splice(0, index).forEach(item => carousel.removeChild(item.element))
-      carousel.classList.add("ex-carousel--rendering")
-      carousel.classList.remove("ex-carousel--animating")
+      renderImmediate()
+      carousel.classList.remove(CLASS_CAROUSEL_ANIMATING)
     }
 
-    animTimer = setTimeout(onAnimComplete, animSpeed)
+    animTimer = setTimeout(onAnimComplete, speed)
   }
-})
 
+  function renderImmediate() {
+    carousel.classList.add(CLASS_CAROUSEL_RENDERING)
+    render()
+    reflow()
+    carousel.classList.remove(CLASS_CAROUSEL_RENDERING)
+  }
+}
+
+// flush class/style changes to dom
 function reflow() {
   document.body.offsetHeight
 }
