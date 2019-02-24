@@ -1,4 +1,4 @@
-let posters = [
+let items = [
   { poster: "terminator.jpg" },
   { poster: "pulpfiction.jpg" },
   { poster: "scarface.jpg" },
@@ -11,24 +11,11 @@ let posters = [
   { poster: "goonies.jpg" },
 ]
 
-let posters2 = [
-  { poster: "terminator.jpg" },
-  { poster: "pulpfiction.jpg" },
-  { poster: "scarface.jpg" },
-  { poster: "ghostbusters.jpg" },
-  { poster: "goonies.jpg" },
-  { poster: "terminator.jpg" },
-  { poster: "pulpfiction.jpg" },
-  { poster: "scarface.jpg" },
-  { poster: "ghostbusters.jpg" },
-  { poster: "goonies.jpg" },
-]
-
-let active = 0
-let animating = false
 const depth = 10
 const itemWidth = 365
-const animSpeed = 550
+const animSpeed = 1550
+let animTimer
+let activeIndex = 0
 
 // javascript implementation
 
@@ -40,37 +27,48 @@ document.addEventListener("DOMContentLoaded", () => {
   // Create an observer instance linked to the callback function
   const observer = new MutationObserver((mutationsList, observer) => {
     for (const mutation of mutationsList) {
-      console.log("mutation:", mutation)
       switch (mutation.type) {
+        case "attributes":
+          //console.log("mutation:", mutation)
+          if (carousel.classList.contains("ex-carousel--animating")) {
+            render()
+          }
+          if (carousel.classList.contains("ex-carousel--rendering")) {
+            render()
+            reflow() // prevent transition during render
+            carousel.classList.remove("ex-carousel--rendering")
+          }
+          break
         case "childList":
-          i
           break
       }
     }
   })
 
   observer.observe(carousel, {
-    attributes: false,
+    attributes: true,
     childList: true,
     subtree: false,
   })
 
   function render() {
-    // iterate through all posters and create dom
-    const l = posters.length
+    // iterate through all items, create dom & assign position
+    const l = items.length
 
-    posters.forEach((item, i) => {
+    // first loop sets immediate positioning
+    items.forEach((item, i) => {
       const zIndex = l - i
-      const x = active * -itemWidth
-      const z = (i - active) * -depth
-      const translateX = `translateX(${x}px)`
-      const translateZ = `translateZ(${z}px)`
+      const x = activeIndex * -itemWidth
+      const z = (i - activeIndex) * -depth
 
       item.z = z
       item.x = x
       item.zIndex = zIndex
 
+      const translateZ = `translateZ(${item.z}px)`
+
       if (!item.element) {
+        item.enter = true
         const element = document.createElement("div")
         element.classList.add("ex-carousel__item")
         //element.setAttribute("tabindex", i)
@@ -79,119 +77,71 @@ document.addEventListener("DOMContentLoaded", () => {
         poster.style.backgroundImage = 'url("asset/poster/' + item.poster + '")'
         element.appendChild(poster)
 
-        element.style.zIndex = zIndex
-        element.style.transform = `${translateZ} ${translateX}`
-        if (item.reshuffled) {
-          //element.style.opacity = 0
-          poster.style.transform = `translateX(-200px)`
-        }
-
         item.onClick = event => onClick(item)
         element.addEventListener("click", item.onClick)
         item.element = element
 
         carousel.appendChild(item.element)
-        if (item.reshuffled) {
-          reflow()
-          //element.style.opacity = 1
-          poster.style.transform = `translateX(0)`
-          item.reshuffled = false
-        }
-      } else {
-        item.element.style.zIndex = zIndex
+      } else if (!item.element.parentNode) {
+        item.enter = true
+        item.onClick = event => onClick(item)
+        item.element.addEventListener("click", item.onClick)
+        carousel.appendChild(item.element)
+      }
+
+      item.element.style.zIndex = zIndex
+
+      if (item.enter) {
+        item.element.style.opacity = 1
+        const translateX = `translateX(${item.x - itemWidth}px)`
         item.element.style.transform = `${translateZ} ${translateX}`
       }
+    })
+
+    reflow()
+
+    // set positions to transition to
+    items.forEach((item, i) => {
+      const translateX = `translateX(${item.x}px)`
+      const translateZ = `translateZ(${item.z}px)`
+
+      item.element.style.transform = `${translateZ} ${translateX}`
     })
   }
 
   function onClick(item) {
-    if (animating) {
-      return
+    if (animTimer) {
+      clearTimeout(animTimer)
     }
-    animating = true
+
+    const index = items.indexOf(item)
+
+    // prevent hover interactions while animating
     carousel.classList.add("ex-carousel--animating")
-    const index = posters.indexOf(item)
-    item.element.classList.add("active")
-    const shifting = posters.slice(0, index)
-    const pushing = shifting.map(item => ({
+
+    const pushing = items.slice(activeIndex, index).map(item => ({
       ...item,
-      element: undefined,
-      reshuffled: true,
+      element: item.element.cloneNode(true),
     }))
-    posters.push(...pushing)
+
+    items.push(...pushing)
+
+    activeIndex = index
 
     render()
 
-    active = index
-    reflow()
-    render()
-
-    setTimeout(() => {
-      carousel.classList.add("ex-carousel--render")
-      reflow()
-      const shifting = posters.splice(0, index)
-      shifting.forEach(item => carousel.removeChild(item.element))
-      active = 0
-      render()
-      reflow()
+    const onAnimComplete = () => {
+      animTimer = undefined
+      activeIndex = 0
+      items.splice(0, index).forEach(item => carousel.removeChild(item.element))
+      carousel.classList.add("ex-carousel--rendering")
       carousel.classList.remove("ex-carousel--animating")
-      carousel.classList.remove("ex-carousel--render")
-      animating = false
-    }, animSpeed)
+    }
+
+    animTimer = setTimeout(onAnimComplete, animSpeed)
   }
 })
 
 function reflow() {
   document.body.offsetHeight
 }
-
-// css onlye
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   const carousel = document.querySelector(".ex-carousel-css")
-
-//   // Create an observer instance linked to the callback function
-//   const observer = new MutationObserver((mutationsList, observer) => {
-//     for (const mutation of mutationsList) {
-//       console.log("mutation:", mutation)
-//     }
-//   })
-
-//   observer.observe(carousel, {
-//     attributes: false,
-//     childList: true,
-//     subtree: false,
-//   })
-
-//   render()
-
-//   function render() {
-//     // iterate through all posters and create dom
-//     const l = posters2.length
-
-//     posters2.forEach((item, i) => {
-//       const element = document.createElement("div")
-//       element.classList.add("ex-carousel-css__item")
-//       //element.setAttribute("tabindex", i)
-//       const poster = document.createElement("div")
-//       poster.classList.add("ex-carousel-css__poster")
-//       poster.style.backgroundImage = 'url("asset/poster/' + item.poster + '")'
-//       element.appendChild(poster)
-
-//       item.onClick = event => onClick(item)
-//       element.addEventListener("click", item.onClick)
-//       item.element = element
-
-//       carousel.appendChild(item.element)
-//     })
-//   }
-
-//   function onClick(item) {
-//     const index = posters2.indexOf(item)
-//     console.log("onClick", index, item.element)
-//     const shifting = posters2.splice(0, index)
-//     posters2.push(...shifting)
-//     shifting.forEach(item => carousel.appendChild(item.element))
-//     //shifting.forEach(item => carousel.removeChild(item.element))
-//   }
-// })
