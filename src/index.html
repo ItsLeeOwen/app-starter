@@ -8,14 +8,21 @@
   </head>
 
   <body>
-    <section>
+    <!-- <section>
       <div class="my-carousel"></div>
-    </section>
+    </section> -->
 
-    <!-- <main id="app">
+    <main id="app">
       <h1>{{ name }}</h1>
 
-      <my-string-literal-component
+      <carousel
+        v-bind:items="carousel1"
+        item-width="365"
+        item-height="550"
+        v-bind:on-select="onSelectCarousel"
+      ></carousel>
+
+      <!-- <my-string-literal-component
         name="Fluffykins"
       ></my-string-literal-component>
 
@@ -24,7 +31,7 @@
         v-bind:items="stuff"
       ></my-single-file-component>
 
-      <my-jsx-component name="Mauikins"></my-jsx-component>
-    </main> -->
+      <my-jsx-component name="Mauikins"></my-jsx-component> -->
+    </main>
   </body>
 </html>
