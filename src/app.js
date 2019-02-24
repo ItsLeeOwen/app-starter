@@ -1,7 +1,12 @@
-export default class App {
-  static Var = "Hello"
+export default {
+  el: "#app",
 
-  greet = (...greetings) => {
-    console.log("greeting:", ...greetings)
-  }
+  data: {
+    name: "Vue App Started",
+
+    stuff: [
+      { message: "Item One", id: "asdf" },
+      { message: "Item Two", id: "qwer" },
+    ],
+  },
 }

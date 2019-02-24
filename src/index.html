@@ -8,6 +8,19 @@
   </head>
 
   <body>
-    <main><h1>Vanilla Javascript, HTML, SCSS</h1></main>
+    <main id="app">
+      <h1>{{ name }}</h1>
+
+      <my-string-literal-component
+        name="Fluffykins"
+      ></my-string-literal-component>
+
+      <my-single-file-component
+        name="Abbykins"
+        v-bind:items="stuff"
+      ></my-single-file-component>
+
+      <my-jsx-component name="Mauikins"></my-jsx-component>
+    </main>
   </body>
 </html>
